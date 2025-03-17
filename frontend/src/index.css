@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-theme-color: #C8A96A;
+  --text-large: 35px;
+}
+.container {
+  max-width: 1280px;
+  width: 100%;
+  padding: 0 20px;
+  margin: auto;
+}
+
+.grad-bg {
+  background: linear-gradient(45deg, #bdd8d9, #c3f4e950);
+}
+
+.border{
+  border: 2px solid #C8A96A;
+}
+
+button{
+  cursor: pointer;
+}
+
+.btn{
+  padding: 12px 24px;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  &.btn-primary{
+background-color: black;
+color: #C8A96A;
+border: 2px solid black;
+transition: all 0.5s;
+&:hover{
+  background-color: #C8A96A;
+  color: black;
+  border-color: #C8A96A;
+}
+  }  
+}
