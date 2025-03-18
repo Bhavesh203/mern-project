@@ -20,17 +20,17 @@ const Category = () => {
   }, []);
 
   const fetchProducts = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/products`);
+    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/products`);
     setProducts(data);
   };
 
   const fetchCategories = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/categories`);
+    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/categories`);
     setCategories(data);
   };
 
   const fetchBrands = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/brands`);
+    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/brands`);
     setBrands(data);
   };
 

@@ -10,7 +10,7 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/api/products/${id}`
+        `https://mern-project-1-9nl5.onrender.com/api/products/${id}`
       );
       setProduct(data);
     };
@@ -27,7 +27,7 @@ const Product = () => {
       <div className="py-5 flex">
         <div className=" h-full">
           <ReactImageMagnifier
-            src={`http://localhost:5000/media/${product.image}`}
+            src={`https://mern-project-1-9nl5.onrender.com/media/${product.image}`}
             width={600}
             height={800}
             zoomWidth={300}

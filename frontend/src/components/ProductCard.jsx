@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="p-4 border rounded-lg shadow-md bg-white hover:shadow-lg transition">
       <img
-        src={`http://localhost:5000/media/${product.image}`}
+        src={`https://mern-project-1-9nl5.onrender.com/media/${product.image}`}
         alt={product.name}
         className="w-full h-48 object-cover mb-4 rounded-lg"
       />

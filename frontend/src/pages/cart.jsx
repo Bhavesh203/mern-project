@@ -46,7 +46,7 @@ const Cart = () => {
                                 <tr key={item._id} className="border-t">
                                     <td className="p-2 flex items-center gap-4">
                                         <img
-                                            src={`http://localhost:5000/media/${item.image}`}
+                                            src={`https://mern-project-1-9nl5.onrender.com/media/${item.image}`}
                                             alt={item.name}
                                             className="w-20 h-20 object-contain"
                                         />

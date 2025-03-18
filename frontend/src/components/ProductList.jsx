@@ -7,7 +7,7 @@ const ProductList = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products`)
+      .get(`https://mern-project-1-9nl5.onrender.com/api/products`)
       .then((response) => {
         console.log("API Response:", response.data);
         setProducts(Array.isArray(response.data) ? response.data : []);

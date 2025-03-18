@@ -37,21 +37,21 @@ const Admin = () => {
   }, []);
 
   const fetchProducts = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/products`);
+    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/products`);
     setProducts(data);
   };
 
   const fetchCategories = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/categories`);
+    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/categories`);
     setCategories(data);
   };
   const fetchBrands = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/brands`);
+    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/brands`);
     setBrands(data);
   };
 
   const fetchUsers = async ()=>{
-    const {data} = await axios.get(`http://localhost:5000/api/auth/users`);
+    const {data} = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/auth/users`);
     setUsers(data);
   }
   const handleInputChange = (e) => {
@@ -71,7 +71,7 @@ const Admin = () => {
 
     if (isUpdating) {
       await axios.put(
-        `http://localhost:5000/api/products/${updateProductId}`,
+        `https://mern-project-1-9nl5.onrender.com/api/products/${updateProductId}`,
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -80,7 +80,7 @@ const Admin = () => {
       setIsUpdating(false);
       setUpdateProductId(null);
     } else {
-      await axios.post(`http://localhost:5000/api/products`, formDataToSend, {
+      await axios.post(`https://mern-project-1-9nl5.onrender.com/api/products`, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     }
@@ -97,7 +97,7 @@ const Admin = () => {
   };
 
   const handleDeleteProduct = async (id) => {
-    await axios.delete(`http://localhost:5000/api/products/${id}`);
+    await axios.delete(`https://mern-project-1-9nl5.onrender.com/api/products/${id}`);
     fetchProducts();
   };
 
@@ -133,7 +133,7 @@ const Admin = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/categories`,
+        `https://mern-project-1-9nl5.onrender.com/api/categories`,
         categoryFormData
       );
       setCategoryFormData({ name: "" });
@@ -149,7 +149,7 @@ const Admin = () => {
     e.preventDefault();
     try {
       console.log("Brand Form Data:", brandFormData); // Log the payload
-      await axios.post("http://localhost:5000/api/brands", brandFormData);
+      await axios.post("https://mern-project-1-9nl5.onrender.com/api/brands", brandFormData);
       setBrandFormData({ name: "" });
       fetchBrands(); // Refresh the brands list
       alert("Brand created successfully");
@@ -164,7 +164,7 @@ const Admin = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/categories/${updateCategoryId}`,
+        `https://mern-project-1-9nl5.onrender.com/api/categories/${updateCategoryId}`,
         categoryFormData
       );
       setCategoryFormData({ name: "" });
@@ -183,7 +183,7 @@ const Admin = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/brands/${updateBrandId}`,
+        `https://mern-project-1-9nl5.onrender.com/api/brands/${updateBrandId}`,
         brandFormData
       );
       setBrandFormData({ name: "" });
@@ -198,7 +198,7 @@ const Admin = () => {
 
   const handleDeleteCategory = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/categories/${id}`);
+      await axios.delete(`https://mern-project-1-9nl5.onrender.com/api/categories/${id}`);
       fetchCategories(); // Refresh the categories list
       alert("Category deleted successfully!");
     } catch (error) {
@@ -209,7 +209,7 @@ const Admin = () => {
 
   const handleDeleteBrand = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/brands/${id}`);
+      await axios.delete(`https://mern-project-1-9nl5.onrender.com/api/brands/${id}`);
       fetchBrands(); // Refresh the categories list
       alert("Brands deleted successfully!");
     } catch (error) {
@@ -502,7 +502,7 @@ const Admin = () => {
                   </td>
                   <td className="p-3 text-center">
                     <img
-                      src={`http://localhost:5000/media/${product.image}`}
+                      src={`https://mern-project-1-9nl5.onrender.com/media/${product.image}`}
                       alt={product.name}
                       className="w-12 h-12 object-cover mx-auto"
                     />

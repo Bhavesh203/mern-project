@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           console.log("Fetching profile with token:", token);
-          const res = await axios.get("http://localhost:5000/api/auth/profile", {
+          const res = await axios.get("https://mern-project-1-9nl5.onrender.com/api/auth/profile", {
             headers: { Authorization: `Bearer ${token}` },
           });
 

@@ -14,7 +14,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/auth/profile/update",
+        "https://mern-project-1-9nl5.onrender.com/api/auth/profile/update",
         { username, email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -28,7 +28,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/auth/profile/update-password",
+        "https://mern-project-1-9nl5.onrender.com/api/auth/profile/update-password",
         { currentPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );
