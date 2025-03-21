@@ -16,7 +16,7 @@ const AuthPage = () => {
     // }
   
     try {
-      const response = await axios.post("https://mern-project-1-9nl5.onrender.com/api/auth/register", formData, {
+      const response = await axios.post("http://localhost:5000/api/auth/register", formData, {
         headers: { "Content-Type": "application/json" }
       });
   
@@ -31,7 +31,7 @@ const AuthPage = () => {
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await axios.post("https://mern-project-1-9nl5.onrender.com/api/auth/verify-otp", { email: formData.email, otp });
+      const response = await axios.post("http://localhost:5000/api/auth/verify-otp", { email: formData.email, otp });
       toast.success(response.data.msg);
     } catch (err) {
       toast.error(err.response?.data?.msg || "OTP verification failed");

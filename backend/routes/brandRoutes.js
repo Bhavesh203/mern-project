@@ -2,13 +2,13 @@ const express = require("express");
 const { getAllBrand, createBrand, updateBrand, deleteBrand } = require("../controllers/brandConroller");
 const router = express.Router();
 
-// Get All Brands
+// Get all Brand
 router.get("/", getAllBrand);
 
-// Create Brands
+// Create a new Brand
 router.post("/", createBrand);
 
-// Updated Brand
+// Update Brand
 router.put("/:id", updateBrand);
 
 // Delete Brand

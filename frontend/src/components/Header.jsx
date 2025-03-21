@@ -100,30 +100,30 @@ const Header = () => {
             >
               Home
             </Link>
-            <a
-              href="#"
+            <Link
+            to="/about"              
               className="text-base font-medium text-white transition-all duration-200 hover:text-theme-color focus:text-theme-color"
             >
               Features
-            </a>
+            </Link>
             <Link
               to="/category"
               className="text-base font-medium text-white transition-all duration-200 hover:text-theme-color focus:text-theme-color"
             >
               Shop
             </Link>
-            <a
-              href="#"
+            <Link
+            to="/blog"              
               className="text-base font-medium text-white transition-all duration-200 hover:text-theme-color focus:text-theme-color"
             >
               Blog
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+            to="/contact-us"              
               className="text-base font-medium text-white transition-all duration-200 hover:text-theme-color focus:text-theme-color"
             >
               Contact Us
-            </a>
+            </Link>
           </div>
         </nav>
       </header>

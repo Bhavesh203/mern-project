@@ -13,7 +13,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://mern-project-1-9nl5.onrender.com/api/auth/register", formData);
+      await axios.post("http://localhost:5000/api/auth/register", formData);
       alert("Registration successful! Please log in.");
       window.location.href = "/login";
     } catch (error) {

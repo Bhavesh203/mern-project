@@ -43,6 +43,8 @@ exports.getUser = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   try {
+    console.log("Decoded User ID:", req.user.id); // Debugging line
+
     const user = await User.findById(req.user.id).select("-password"); // Exclude password
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -52,6 +54,7 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch profile" });
   }
 };
+
 
 
 
@@ -87,13 +90,15 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "8h",
     });
+
     res.json({ token });
   } catch (err) {
     res.status(500).json({ error: "Login failed" });
   }
 };
+
 
 exports.updateProfile = async (req, res) => {
   const { username, email } = req.body;
@@ -141,19 +146,18 @@ exports.updatePassword = async (req, res) => {
 
 exports.verifyToken = async(req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
-
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized - No token provided" });
+      return res.status(401).json({ message: "Access denied. No token provided." });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ error: "Token is invalid or expired" });
-    }
-    req.user = decoded; // Store user ID from token
-    next();
-  });
-};
+  try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded; // Ensure decoded token includes userId
+      next();
+  } catch (error) {
+      console.error("Invalid token:", error);
+      return res.status(401).json({ message: "Invalid token." });
+}};
 
 //Logout User
 exports.logoutUser = async (req, res) => {

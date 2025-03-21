@@ -13,21 +13,29 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           console.log("Fetching profile with token:", token);
-          const res = await axios.get("https://mern-project-1-9nl5.onrender.com/api/auth/profile", {
+          const res = await axios.get("http://localhost:5000/api/auth/profile", {
             headers: { Authorization: `Bearer ${token}` },
           });
-
+  
           console.log("Fetched User Data:", res.data); // Debugging
-          setUser(res.data);
+  
+          if (res.data && res.data.role) {
+            setUser(res.data); // ✅ Set the user correctly
+          } else {
+            console.error("Invalid user data format:", res.data);
+            setUser(null);
+          }
         } catch (error) {
           console.error("Failed to fetch user:", error.response?.data || error.message);
           localStorage.removeItem("token");
+          setUser(null);
         }
       }
+      
     };
     fetchUser();
   }, [token]);
-
+  
   const login = (token) => {
     localStorage.setItem("token", token);
     setToken(token);

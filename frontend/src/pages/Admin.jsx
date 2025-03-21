@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 
 const Admin = () => {
+  const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     image: null,
@@ -34,26 +37,33 @@ const Admin = () => {
     fetchCategories();
     fetchBrands();
     fetchUsers();
+    fetchOrders();
   }, []);
 
   const fetchProducts = async () => {
-    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/products`);
+    const { data } = await axios.get(`http://localhost:5000/api/products`);
     setProducts(data);
   };
 
   const fetchCategories = async () => {
-    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/categories`);
+    const { data } = await axios.get(`http://localhost:5000/api/categories`);
     setCategories(data);
   };
   const fetchBrands = async () => {
-    const { data } = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/brands`);
+    const { data } = await axios.get(`http://localhost:5000/api/brands`);
     setBrands(data);
   };
 
-  const fetchUsers = async ()=>{
-    const {data} = await axios.get(`https://mern-project-1-9nl5.onrender.com/api/auth/users`);
+  const fetchUsers = async () => {
+    const { data } = await axios.get(`http://localhost:5000/api/auth/users`);
     setUsers(data);
   }
+
+  const fetchOrders = async () => {
+    const { data } = await axios.get(`http://localhost:5000/api/orders`);
+    setOrders(data);
+  }
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -71,7 +81,7 @@ const Admin = () => {
 
     if (isUpdating) {
       await axios.put(
-        `https://mern-project-1-9nl5.onrender.com/api/products/${updateProductId}`,
+        `http://localhost:5000/api/products/${updateProductId}`,
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -80,7 +90,7 @@ const Admin = () => {
       setIsUpdating(false);
       setUpdateProductId(null);
     } else {
-      await axios.post(`https://mern-project-1-9nl5.onrender.com/api/products`, formDataToSend, {
+      await axios.post(`http://localhost:5000/api/products`, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     }
@@ -97,8 +107,23 @@ const Admin = () => {
   };
 
   const handleDeleteProduct = async (id) => {
-    await axios.delete(`https://mern-project-1-9nl5.onrender.com/api/products/${id}`);
+    await axios.delete(`http://localhost:5000/api/products/${id}`);
     fetchProducts();
+  };
+
+  //  Updated Order Status
+  const handleOrderStatusUpdate = async (id, status) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/orders/${id}`,
+        { status },
+      );
+      fetchOrders(); // Refresh the orders after updating
+      alert("Order status updated successfully!");
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      alert("Failed to update order status.");
+    }
   };
 
   const handleUpdateProduct = (id) => {
@@ -133,7 +158,7 @@ const Admin = () => {
 
     try {
       await axios.post(
-        `https://mern-project-1-9nl5.onrender.com/api/categories`,
+        `http://localhost:5000/api/categories`,
         categoryFormData
       );
       setCategoryFormData({ name: "" });
@@ -149,7 +174,7 @@ const Admin = () => {
     e.preventDefault();
     try {
       console.log("Brand Form Data:", brandFormData); // Log the payload
-      await axios.post("https://mern-project-1-9nl5.onrender.com/api/brands", brandFormData);
+      await axios.post("http://localhost:5000/api/brands", brandFormData);
       setBrandFormData({ name: "" });
       fetchBrands(); // Refresh the brands list
       alert("Brand created successfully");
@@ -164,7 +189,7 @@ const Admin = () => {
 
     try {
       await axios.put(
-        `https://mern-project-1-9nl5.onrender.com/api/categories/${updateCategoryId}`,
+        `http://localhost:5000/api/categories/${updateCategoryId}`,
         categoryFormData
       );
       setCategoryFormData({ name: "" });
@@ -183,7 +208,7 @@ const Admin = () => {
 
     try {
       await axios.put(
-        `https://mern-project-1-9nl5.onrender.com/api/brands/${updateBrandId}`,
+        `http://localhost:5000/api/brands/${updateBrandId}`,
         brandFormData
       );
       setBrandFormData({ name: "" });
@@ -198,7 +223,7 @@ const Admin = () => {
 
   const handleDeleteCategory = async (id) => {
     try {
-      await axios.delete(`https://mern-project-1-9nl5.onrender.com/api/categories/${id}`);
+      await axios.delete(`http://localhost:5000/api/categories/${id}`);
       fetchCategories(); // Refresh the categories list
       alert("Category deleted successfully!");
     } catch (error) {
@@ -207,9 +232,20 @@ const Admin = () => {
     }
   };
 
+  const handleDeleteUser = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/auth/user/${id}`);
+      fetchUsers();
+      alert("User Deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Failed to delete user.");
+    }
+  }
+
   const handleDeleteBrand = async (id) => {
     try {
-      await axios.delete(`https://mern-project-1-9nl5.onrender.com/api/brands/${id}`);
+      await axios.delete(`http://localhost:5000/api/brands/${id}`);
       fetchBrands(); // Refresh the categories list
       alert("Brands deleted successfully!");
     } catch (error) {
@@ -217,6 +253,17 @@ const Admin = () => {
       alert("Failed to delete brand.");
     }
   };
+
+  const handleDeleteOrder = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/orders/${id}`);
+      fetchOrders();
+      alert("Order deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      alert("Failed to delete order.");
+    }
+  }
 
   return (
     <div className="p-4 lg:p-6 bg-gray-100 min-h-screen">
@@ -502,7 +549,7 @@ const Admin = () => {
                   </td>
                   <td className="p-3 text-center">
                     <img
-                      src={`https://mern-project-1-9nl5.onrender.com/media/${product.image}`}
+                      src={`http://localhost:5000/media/${product.image}`}
                       alt={product.name}
                       className="w-12 h-12 object-cover mx-auto"
                     />
@@ -568,7 +615,69 @@ const Admin = () => {
                     Update
                   </button> */}
                   <button
-                    // onClick={() => handleDeleteCategory(user._id)}
+                    onClick={() => handleDeleteUser(user._id)}
+                    className="cursor-pointer bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-all"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </motion.table>
+      </div>
+
+      {/* orders */}
+      <div className="overflow-x-auto mb-10">
+        <motion.table
+          className="w-full bg-white shadow-md rounded-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <thead className="bg-blue-500 text-white">
+            <tr>
+              <th className="p-3">Order Id</th>
+              <th className="p-3">Username</th>
+              <th className="p-3">Total Amount</th>
+              <th className="p-3">Order Status</th>
+              <th className="p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <motion.tr
+                key={order._id}
+                className="border-b hover:bg-gray-100"
+              >
+                <td className="p-3 text-center">{order._id}</td>
+                <td className="p-3 text-center">{order.orderDetails?.name}</td>
+                {/* <td className="p-3 text-center">{order.cartItems}</td> */}
+                <td className="p-3 text-center">{order.totalAmount}</td>
+                <td className="p-3 text-center">
+                  {/* Dropdown for Status Update */}
+                  <select
+                    className="bg-white border p-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:ring-blue-500"
+                    value={order.status}
+                    onChange={(e) =>
+                      handleOrderStatusUpdate(order._id, e.target.value)
+                    }
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </td>
+                <td className="p-3 flex gap-3 justify-center">
+                  <button
+                    onClick={() => handleOrderStatusUpdate(order._id, order.status)}
+                    className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-md transition-all"
+                  >
+                    Update Status
+                  </button>
+                  <button
+                    onClick={() => handleDeleteOrder(order._id)}
                     className="cursor-pointer bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-all"
                   >
                     Delete

@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const path = require("path");
+const cartRoutes = require("./routes/cartRoutes");
+const checkoutRoutes = require("./routes/checkoutRoutes");
 
 dotenv.config();
 connectDB();
@@ -17,8 +19,10 @@ app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/brands", require("./routes/brandRoutes"));
 app.use('/api/auth', require("./routes/authRoutes"));
-
-
+app.use("/api/orders", require("./routes/orderRoutes"));
+// app.use("/api/cart", require("./routes/cartRoutes"));
+app.use("/api/cart", cartRoutes);
+app.use("/api/checkout", checkoutRoutes);
 
 app.get("/", (req, res) => {
     res.send("API is running...");
