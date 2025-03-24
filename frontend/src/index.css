@@ -5,6 +5,7 @@
   --color-theme-color: #C8A96A;
   --text-large: 35px;
 }
+
 .container {
   max-width: 1280px;
   width: 100%;
@@ -16,28 +17,34 @@
   background: linear-gradient(45deg, #bdd8d9, #c3f4e950);
 }
 
-.border{
+.offerBg {
+  background: url('../public/offer.png');
+}
+
+.border {
   border: 2px solid #C8A96A;
 }
 
-button{
+button {
   cursor: pointer;
 }
 
-.btn{
+.btn {
   padding: 12px 24px;
   text-transform: uppercase;
   font-weight: 600;
   cursor: pointer;
-  &.btn-primary{
-background-color: black;
-color: #C8A96A;
-border: 2px solid black;
-transition: all 0.5s;
-&:hover{
-  background-color: #C8A96A;
-  color: black;
-  border-color: #C8A96A;
-}
-  }  
+
+  &.btn-primary {
+    background-color: black;
+    color: #C8A96A;
+    border: 2px solid black;
+    transition: all 0.5s;
+
+    &:hover {
+      background-color: #C8A96A;
+      color: black;
+      border-color: #C8A96A;
+    }
+  }
 }

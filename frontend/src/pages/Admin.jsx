@@ -10,6 +10,7 @@ const Admin = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [users, setUsers] = useState([]);
+  const [banners, setBanners] = useState([]);
   const [orders, setOrders] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -25,6 +26,9 @@ const Admin = () => {
   const [brandFormData, setBrandFormData] = useState({
     name: "",
   });
+  const [bannerFormData, setBannerFormData] = useState({
+    image: null,
+  });
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateProductId, setUpdateProductId] = useState(null);
   const [isUpdatingCategory, setIsUpdatingCategory] = useState(false);
@@ -38,8 +42,13 @@ const Admin = () => {
     fetchBrands();
     fetchUsers();
     fetchOrders();
+    fetchBanners();
   }, []);
 
+  const fetchBanners = async () => {
+    const { data } = await axios.get(`http://localhost:5000/api/banners`);
+    setBanners(data);
+  };
   const fetchProducts = async () => {
     const { data } = await axios.get(`http://localhost:5000/api/products`);
     setProducts(data);
@@ -71,6 +80,10 @@ const Admin = () => {
   const handleImageChange = (e) => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
+
+  const handleBannerImageChange = (e) => {
+    setBannerFormData({ ...bannerFormData, image: e.target.files[0] });
+  }
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -184,6 +197,25 @@ const Admin = () => {
     }
   };
 
+  // handle Banner form
+  const handleBannerForm = async (e) => {
+    e.preventDefault();
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("image", bannerFormData.image);
+
+      console.log("Banner Form Data", bannerFormData);
+      await axios.post("http://localhost:5000/api/banners", formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setBannerFormData({ image: null });
+      alert("Banner created successfully");
+    } catch (error) {
+      console.error("Error creating banner:", error);
+      alert("Failed to create banner.");
+    }
+  };
+
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
 
@@ -268,6 +300,29 @@ const Admin = () => {
   return (
     <div className="p-4 lg:p-6 bg-gray-100 min-h-screen">
       <h2 className="text-3xl font-bold text-center mb-6">Admin Panel</h2>
+      <motion.form
+        onSubmit={handleBannerForm}
+        className="bg-white p-6 rounded-lg shadow-md mb-10"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Remove the "value" attribute from the file input */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleBannerImageChange}
+          className="p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+          required
+        />
+
+        <button
+          type="submit"
+          className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md transition-all mt-4"
+        >
+          Create Banner
+        </button>
+      </motion.form>
 
       <motion.form
         onSubmit={
@@ -687,6 +742,25 @@ const Admin = () => {
             ))}
           </tbody>
         </motion.table>
+      </div>
+      {/* Displaying Fetched Banners */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-4">Existing Banners</h3>
+        {banners.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {banners.map((banner) => (
+              <div key={banner._id} className="bg-white p-4 rounded-lg shadow">            
+                <img
+                      src={`http://localhost:5000/media/banner/${banner.image}`}
+                      alt={banner.name}
+                      className="h-[200px] w-full object-top object-cover mx-auto"
+                    />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No banners available.</p>
+        )}
       </div>
     </div>
   );

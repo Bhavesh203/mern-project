@@ -23,6 +23,7 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 // app.use("/api/cart", require("./routes/cartRoutes"));
 app.use("/api/cart", cartRoutes);
 app.use("/api/checkout", checkoutRoutes);
+app.use("/api/banners", require("./routes/bannerRoutes"));;
 
 app.get("/", (req, res) => {
     res.send("API is running...");
